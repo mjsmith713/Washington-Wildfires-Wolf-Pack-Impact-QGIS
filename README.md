@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-![Washington Wildfires and Wolf Pack Territory Overlap Map](outputs/Washington_Wildfire_Wolf_Pack_Map_II.png)
+![Washington Wildfires and Wolf Pack Territory Overlap Map](output/Washington_Wildfire_Wolf_Pack_Map_II.png)
 
 📄 **[Download Full-Resolution Cartographic Layout (PDF)](outputs/Washington_Wolf_Wildfire_Map.pdf)**
 
