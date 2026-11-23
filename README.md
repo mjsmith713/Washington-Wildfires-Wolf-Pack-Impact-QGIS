@@ -1,55 +1,44 @@
-# Washington-Wildfires-Wolf-Pack-Impact-QGIS
-Spatial overlay analysis in QGIS quantifying historical wildfire perimeter overlap and habitat impact across 49 Washington State wolf pack territories.
-# Washington State Wildfires & Wolf Pack Territory Impact Analysis (QGIS)
+# Washington State Wildfires & Wolf Pack Territory Impact Analysis (1973–2022)
 
 ## Project Overview
-This spatial overlay analysis evaluates historical wildfire exposure across **2025 Washington Department of Fish and Wildlife (WDFW) wolf pack territories** using **QGIS** (`EPSG:2285` / `EPSG:2927` Washington State Plane, US Survey Feet). By intersecting historical Washington large-fire perimeters (1973–2022) with **49 active wolf pack polygons** (**6,496,365.4 total acres**; 22 Breeding Pairs and 27 Nonbreeding Packs), this study identifies **254 distinct fire-pack intersection events** and quantifies exact overlap acreage (`Overlap_Ac`) and percentage of territory burned (`Pct_Burned`).
 
-## Data Sources
-* **Wolf Pack Territories:** Washington Department of Fish and Wildlife (WDFW) 2025 Wolf Pack Polygons (`Wolf_Pack_Polygons`, 49 active territories totaling 6,496,365.4 acres).
-* **Wildfire Perimeters & Centroids:** Washington DNR / NIFC Historical Large Wildfire Perimeters (`1973–2022`) and `Wildfire_Centroid` point layer.
-* **Ecological Context:** Pacific Northwest Ecoregions (`Ecoregions_Counts in Polygons`) for regional fire frequency comparison.
+![Washington Wildfires and Wolf Pack Territory Overlap Map](outputs/Washington_Wolf_Wildfire_Map.png)
 
-## Geoprocessing Methodology (QGIS)
-1. **CRS Standardization:** Reprojected wolf pack polygons, wildfire perimeters, and ecoregion boundaries into Washington State Plane (`EPSG:2285` / `EPSG:2927`) to ensure accurate planar area calculations in square feet and acres (`ShapeSTAre / 43560`).
-2. **Spatial Overlay (`Intersect`):** Executed a vector **Intersect** between `Wolf_Pack_Polygons` and historical wildfire perimeters (`Wolf_Fire_Intersect`, generating 254 overlap polygons).
-3. **Impact Quantification (`Field Calculator`):**
-   * **Intersected Area (`Overlap_Ac`):** `$area / 43560`
-   * **Percent Territory Burned (`Pct_Burned`):** `("Overlap_Ac" / ("Pack_Acres")) * 100`
-4. **Regional Aggregation:** Summarized historical wildfire counts across Pacific Northwest Ecoregions (`Count Points in Polygon`) and compared breeding vs. nonbreeding pack exposure.
+📄 **[Download Full-Resolution Cartographic Layout (PDF)](outputs/Washington_Wolf_Wildfire_Map.pdf)**
 
-## Highlighted High-Impact Fire-Pack Intersections
+This geospatial analysis evaluates historical wildfire exposure across active gray wolf (*Canis lupus*) territories in Washington State. By intersecting 50 years of large wildfire perimeter records (**1973–2022**) with **2025 Washington Department of Fish and Wildlife (WDFW)** wolf pack polygons in **QGIS** (`EPSG:2927` / NAD83(HARN) Washington South ftUS), this study quantifies overlapping burned acreage (`Overlap_Ac`), territory burn percentages (`Pct_Burned`), and wildfire frequency across Pacific Northwest ecoregions.
 
-| Wolf Pack | Pack Status | Fire Year | Ignition Cause | Total Fire Size (Acres) | Intersected Area (`Overlap_Ac`) | % Pack Territory Burned (`Pct_Burned`) |
-| :--- | :--- | :---: | :--- | :---: | :---: | :---: |
-| **Sullivan Creek** | Breeding Pairs | 2014 | Lightning | 143,748.9 | **8,193.70** | **6.55%** |
-| **Chewuch** | Breeding Pairs | 2006 | Unknown | 166,977.8 | **5,824.29** | **4.31%** |
-| **Chewuch** | Breeding Pairs | 2021 | Lightning | — | **5,411.29** | **2.50%** |
-| **Navarre** | Breeding Pairs | 2014 | Lightning | 143,748.9 | **5,002.72** | **3.69%** |
-| **Nason** | Breeding Pairs | 2021 | — | — | **4,163.30** | **3.09%** |
-| **Reed** | Breeding Pairs | 2015 | Lightning | 134,161.6 | **4,091.89** | **8.42%** |
-| **Tucannon** | Breeding Pairs | 2021 | — | — | **2,987.75** | **2.66%** |
-| **Chewuch** | Breeding Pairs | 2014 | Lightning | 143,748.9 | **2,798.53** | **2.07%** |
-| **Teanaway** | Breeding Pairs | 2017 | Lightning | 81,862.4 | **2,477.94** | **1.83%** |
-| **Navarre** | Breeding Pairs | 2013 | Unknown | 107,596.0 | **2,442.84** | **1.80%** |
+## Primary Spatial Datasets
+* **2025 WDFW Wolf Pack Polygons (`Wolf_Pack_Polygons_(current_year)`):** 49 active territories totaling **6,496,365.4 acres** (22 Breeding Pairs; 27 Nonbreeding Packs).
+* **Washington Large Fires (`1973–2022`):** Historical wildfire perimeter polygons (`FIRENAME`, `YEAR`, `CAUSE`, total `ACRES`) repaired via *Fix Geometries*.
+* **EPA Level III Pacific Northwest Ecoregions:** Regional ecological zones aggregated via fire perimeter centroids (`Wildfire_Centroid`).
 
-## Key Findings
-* **Concentrated Breeding Pack Exposure:** High-severity lightning-driven megafires in the North Cascades and Okanogan highlands (such as the 2006, 2014, 2015, and 2021 fire seasons) drove the largest single-event habitat overlaps across **Breeding Pair** territories including **Sullivan Creek**, **Chewuch**, **Navarre**, **Nason**, and **Reed**.
-* **Disproportionate Impact on Compact Territories:** Smaller wolf pack territories face acute single-fire vulnerability—for example, the **Reed** pack (`48,597.1` total acres) saw **8.42%** (`4,091.89` acres) of its territory intersect a single 2015 lightning fire.
-* **Chronic Multi-Decade Fire Return:** Territories such as **Navarre** and **TupShin** experienced repeated wildfire intersections across multiple decades (1994–2021), highlighting the importance of post-fire ungulate forage recovery and denning/rendezvous site resilience.
+## Geoprocessing Workflow (QGIS)
+1. **CRS Standardization:** Reprojected all vector inputs into **NAD83(HARN) / Washington South (ftUS) (`EPSG:2927`)** for uniform planar area measurements.
+2. **Topology Validation:** Executed *Fix Geometries* on historical wildfire perimeters to resolve self-intersections before overlay operations.
+3. **Spatial Intersection:** Ran *Vector → Geoprocessing Tools → Intersect* between wolf pack territories and repaired wildfire perimeters, generating **254 fire-pack overlap polygons** (`Wolf_Fire_Intersect`).
+4. **Field Calculator Metrics:** Computed exact intersected footprint (`Overlap_Ac = $area / 43560`) and relative territory burn share (`Pct_Burned = (Overlap_Ac / Pack_Acres) * 100`).
+5. **Ecoregion Aggregation:** Converted fire perimeters to centroids and ran *Count Points in Polygon* across Pacific Northwest Ecoregions.
+
+## Key Territory & Fire Overlap Highlights
+* **Statewide Territory Footprint:** **6,496,365.4 acres** across **49 active packs** (`22` Breeding Pairs [44.9%]; `27` Nonbreeding Packs [55.1%]).
+* **Largest Mapped Territories:** **Napeequa** (`575,780.6` ac), **Billy Goat** (`216,912.8` ac), **Dollar Mountain** (`184,944.5` ac), **Lookout** (`177,442.9` ac), and **Naneum** (`173,318.5` ac).
+* **Notable 2021 Fire-Pack Overlaps:** **Chewuch** (`5,411.29` overlap ac; `2.50%` burned), **Nason** (`4,163.30` overlap ac; `3.09%` burned), **Tucannon** (`2,987.75` overlap ac; `2.66%` burned), **Couse** (`2,435.31` overlap ac; `2.17%` burned), and **Napeequa** (`2,042.30` overlap ac; `1.51%` burned).
 
 ## Repository Structure
 ```text
 ├── data/
-│   └── [Clipped Wolf Pack & Wildfire GeoPackage (.gpkg)]
+│   └── washington_wolf_fire_analysis.gpkg
 ├── docs/
-│   ├── Wolf_Wildfire_README.pdf
-│   ├── Vector_Overlay_Methodology.pdf
-│   └── Pack_Impact_Summary_Worksheet.pdf
+│   ├── Washington_Wolf_Wildfire_Final_README.pdf
+│   ├── Washington_Wolf_Wildfire_Methodology.pdf
+│   └── Washington_Wolf_Pack_Summary_Report.pdf
 ├── outputs/
-│   └── [Final QGIS Print Layout Map PNG]
+│   ├── Washington_Wolf_Wildfire_Map.png
+│   └── Washington_Wolf_Wildfire_Map.pdf
 ├── stats/
-│   ├── wolf_fire_intersect_stats.csv
-│   └── wolf_pack_territories.csv
+│   ├── Wolf_Fire_Intersect_Stats.csv
+│   ├── Wolf_Pack_Territories.csv
+│   └── Ecoregion_Fire_Counts.csv
 └── README.md
 ```
