@@ -4,7 +4,7 @@
 
 ![Washington Wildfires and Wolf Pack Territory Overlap Map](output/Washington_Wildfire_Wolf_Pack_Map_II.png)
 
-📄 **[Download Full-Resolution Cartographic Layout (PDF)](outputs/Washington_Wolf_Wildfire_Map.pdf)**
+📄 **[Download Full-Resolution Cartographic Layout (PDF)](output/Washington_Wildfire_Wolf_Pack_Map_VI.pdf)**
 
 This geospatial analysis evaluates historical wildfire exposure across active gray wolf (*Canis lupus*) territories in Washington State. By intersecting 50 years of large wildfire perimeter records (**1973–2022**) with **2025 Washington Department of Fish and Wildlife (WDFW)** wolf pack polygons in **QGIS** (`EPSG:2927` / NAD83(HARN) Washington South ftUS), this study quantifies overlapping burned acreage (`Overlap_Ac`), territory burn percentages (`Pct_Burned`), and wildfire frequency across Pacific Northwest ecoregions.
 
